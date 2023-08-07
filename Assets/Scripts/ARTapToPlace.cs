@@ -20,7 +20,13 @@ public class ARTapToPlace : MonoBehaviour
             if (arRaycastManager.Raycast(ray, _arRaycastHits, TrackableType.PlaneWithinPolygon))
             {
                 Pose hitPose = _arRaycastHits[0].pose;
-                Instantiate(spawnedARGameObject, hitPose.position, hitPose.rotation);
+                GameObject spawnedObject = Instantiate(spawnedARGameObject, hitPose.position, Quaternion.identity);
+                
+                // Rotate the spawned object to face the camera's front view
+                var cameraToSpawnedObject = arCamera.transform.position - spawnedObject.transform.position;
+                cameraToSpawnedObject.y = 0f; // Ensure the rotation is only around the y-axis
+                Quaternion rotation = Quaternion.LookRotation(cameraToSpawnedObject);
+                spawnedObject.transform.rotation = rotation;
             }
         }
     }
