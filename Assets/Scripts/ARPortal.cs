@@ -6,7 +6,7 @@ public class ARPortal : MonoBehaviour
     public ARRoom arRoom;
 
     public Material stencilMaskMaterial;
-    public Material stencilSpecularMaterial;
+    public Material stencilMaterial;
     
     private static readonly int StencilComp = Shader.PropertyToID("_StencilComp");
     private static readonly int Ref = Shader.PropertyToID("_Ref");
@@ -40,7 +40,7 @@ public class ARPortal : MonoBehaviour
     private void SetMaterials(bool fullRender)
     {
         var stencilCompValue = fullRender ? CompareFunction.NotEqual : CompareFunction.Equal;
-        stencilSpecularMaterial.SetInt(StencilComp, (int)stencilCompValue);
+        stencilMaterial.SetInt(StencilComp, (int)stencilCompValue);
         
         var worldValue = fullRender ? 0 : 1;
         stencilMaskMaterial.SetInt(Ref, worldValue);
